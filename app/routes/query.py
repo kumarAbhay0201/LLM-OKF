@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
 
 from app.services.retriever import (
@@ -23,7 +23,10 @@ class QuestionRequest(BaseModel):
 
 
 @router.post("/ask")
-def ask_question(request: QuestionRequest):
+def ask_question(
+    request: QuestionRequest,
+    x_groq_api_key: str | None = Header(default=None),
+):
 
     question = request.question.strip()
 
@@ -58,10 +61,22 @@ def ask_question(request: QuestionRequest):
     # 3. Generate answer
     # --------------------------------
 
-    answer = generate_answer(
-        question=question,
-        context=context,
-    )
+    try:
+        answer = generate_answer(
+            question=question,
+            context=context,
+            request_api_key=x_groq_api_key,
+        )
+    except RuntimeError as error:
+        raise HTTPException(
+            status_code=503,
+            detail=str(error),
+        ) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=502,
+            detail="The language model provider could not complete the request.",
+        ) from error
 
     # --------------------------------
     # 4. Return response

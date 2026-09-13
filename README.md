@@ -84,6 +84,27 @@ Interactive API documentation is available at:
 - `http://127.0.0.1:8000/docs`
 - `http://127.0.0.1:8000/redoc`
 
+## Deploy to Vercel
+
+The Vercel serverless entrypoint is `api/index.py`, which exposes the FastAPI
+application as `app`. Deploy from the project root with the Vercel CLI or by
+connecting the repository in the Vercel dashboard.
+
+Add these environment variables in the Vercel project settings for the
+Production, Preview, or Development environments that you use:
+
+```text
+GROQ_API_KEY
+GROQ_MODEL
+```
+
+The current working model is `openai/gpt-oss-20b`, but model availability is
+account-dependent. Do not rely on the local `.env` file in a Vercel deployment;
+Vercel does not receive that ignored file automatically.
+
+The frontend uses the same origin in a deployed environment. Locally it uses
+`http://127.0.0.1:8000`.
+
 ## API Endpoints
 
 ### Health check

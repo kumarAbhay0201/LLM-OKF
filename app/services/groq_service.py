@@ -7,30 +7,10 @@ from groq import Groq
 load_dotenv()
 
 
-api_key = os.getenv("GROQ_API_KEY")
-model = os.getenv("GROQ_MODEL")
-
-
-if not api_key:
-    raise ValueError(
-        "GROQ_API_KEY is not set in the environment."
-    )
-
-
-if not model:
-    raise ValueError(
-        "GROQ_MODEL is not set in the environment."
-    )
-
-
-client = Groq(
-    api_key=api_key
-)
-
-
 def generate_answer(
     question: str,
-    context: str
+    context: str,
+    request_api_key: str | None = None,
 ):
     """
     Generate an answer using the Groq-hosted LLM.
@@ -77,6 +57,16 @@ USER QUESTION
 Answer the user's question using the knowledge above.
 """
 
+    api_key = request_api_key or os.getenv("GROQ_API_KEY")
+    model = os.getenv("GROQ_MODEL")
+
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY is not configured on the server.")
+
+    if not model:
+        raise RuntimeError("GROQ_MODEL is not configured on the server.")
+
+    client = Groq(api_key=api_key)
     response = client.chat.completions.create(
         model=model,
         messages=[

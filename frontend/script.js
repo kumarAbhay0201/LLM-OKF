@@ -10,7 +10,9 @@ const concepts = document.getElementById("concepts");
 const conceptCount = document.getElementById("conceptCount");
 const apiKey = document.getElementById("apiKey");
 const connectionStatus = document.getElementById("connectionStatus");
-const apiUrl = "http://127.0.0.1:8000";
+const apiUrl = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+    ? "http://127.0.0.1:8000"
+    : window.location.origin;
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
