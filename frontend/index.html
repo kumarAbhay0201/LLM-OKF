@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM-OKF Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">O</div>
+                <div><strong>LLM-OKF</strong><span>knowledge agent</span></div>
+            </div>
+            <div class="sidebar-section">
+                <div class="section-label">API connection</div>
+                <label class="field-label" for="apiKey">Groq API key</label>
+                <input id="apiKey" class="sidebar-input" type="password" placeholder="Optional for this session" autocomplete="off">
+                <p class="field-hint">Your key is sent only with the request and is never stored.</p>
+                <div id="connectionStatus" class="connection-status"><span></span> Ready to connect</div>
+            </div>
+            <div class="sidebar-section knowledge-panel">
+                <div class="section-heading"><div class="section-label">Knowledge used</div><span id="conceptCount" class="count-badge">0</span></div>
+                <div id="concepts" class="concept-list"><p class="empty-state">Relevant concepts will appear here after you ask a question.</p></div>
+            </div>
+            <div class="sidebar-footer"><span class="status-dot"></span><span>Local knowledge base</span><span class="version">v0.1</span></div>
+        </aside>
+
+        <main class="workspace">
+            <header class="workspace-header">
+                <div><p class="eyebrow">OPEN KNOWLEDGE FORMAT</p><h1>Ask the knowledge agent.</h1><p class="subtitle">Explore connected ideas in language models through grounded answers.</p></div>
+                <div class="header-chip"><span class="pulse"></span> Agent online</div>
+            </header>
+            <section id="conversation" class="conversation" aria-live="polite">
+                <div id="welcome" class="welcome-state">
+                    <div class="welcome-glyph">✦</div><h2>What are you working on?</h2><p>Ask about LLM concepts, training methods, retrieval, or model adaptation.</p>
+                    <div class="suggestions">
+                        <button type="button" class="suggestion" data-question="How does QLoRA make fine-tuning more memory-efficient?">How does QLoRA save memory?</button>
+                        <button type="button" class="suggestion" data-question="What is the relationship between attention and transformers?">Explain attention in transformers</button>
+                        <button type="button" class="suggestion" data-question="How does semantic search support RAG?">How does semantic search support RAG?</button>
+                    </div>
+                </div>
+                <article id="result" class="answer-card" hidden><div class="answer-meta"><span class="meta-dot"></span> Grounded answer</div><div id="answer" class="answer-content"></div></article>
+                <div id="loading" class="loading-state" hidden><span class="loading-orb"></span><span>Searching the knowledge base and thinking...</span></div>
+                <div id="error" class="error-message" hidden></div>
+            </section>
+            <section class="composer-wrap">
+                <form id="askForm" class="composer">
+                    <div class="composer-topline"><span class="composer-label">MESSAGE AGENT</span></div>
+                    <textarea id="question" rows="2" placeholder="Ask a question about language models..." aria-label="Ask a question"></textarea>
+                    <div class="composer-actions"><span class="composer-note">Answers are grounded in your local OKF knowledge base.</span><button id="askButton" type="submit" class="send-button" aria-label="Send question"><span>Ask agent</span><span class="send-icon">↗</span></button></div>
+                </form>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
