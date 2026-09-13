@@ -95,12 +95,14 @@ The Vercel serverless entrypoint is `api/index.py`, which exposes the FastAPI
 application as `app`. Deploy from the project root with the Vercel CLI or by
 connecting the repository in the Vercel dashboard.
 
-Add these environment variables in the Vercel project settings for the
-Production, Preview, or Development environments that you use:
+Add `GROQ_API_KEY` in the Vercel project settings for the Production, Preview,
+or Development environments that you use. `GROQ_MODEL` is optional and
+defaults to `openai/gpt-oss-20b`:
 
 ```text
-GROQ_API_KEY
-GROQ_MODEL
+GROQ_API_KEY=your_groq_api_key
+# Optional override
+GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 The current working model is `openai/gpt-oss-20b`, but model availability is

@@ -6,6 +6,8 @@ from groq import Groq
 
 load_dotenv()
 
+DEFAULT_MODEL = "openai/gpt-oss-20b"
+
 
 def generate_answer(
     question: str,
@@ -58,13 +60,10 @@ Answer the user's question using the knowledge above.
 """
 
     api_key = request_api_key or os.getenv("GROQ_API_KEY")
-    model = os.getenv("GROQ_MODEL")
+    model = os.getenv("GROQ_MODEL", DEFAULT_MODEL)
 
     if not api_key:
         raise RuntimeError("GROQ_API_KEY is not configured on the server.")
-
-    if not model:
-        raise RuntimeError("GROQ_MODEL is not configured on the server.")
 
     client = Groq(api_key=api_key)
     response = client.chat.completions.create(
