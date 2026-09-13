@@ -79,6 +79,11 @@ uvicorn app.main:app --reload
 
 The API is available at `http://127.0.0.1:8000`.
 
+The web interface is served at the same address:
+
+- Local app: `http://127.0.0.1:8000/`
+- Deployed app: [https://llm-okf.vercel.app/](https://llm-okf.vercel.app/)
+
 Interactive API documentation is available at:
 
 - `http://127.0.0.1:8000/docs`
@@ -194,9 +199,10 @@ require a model request.
 
 ## Frontend
 
-With the API running, open `frontend/index.html` in a browser. The frontend
-uses the local API at `http://127.0.0.1:8000`, so the backend must be running
-there unless the URL in `frontend/script.js` is changed for deployment.
+With the API running, open `http://127.0.0.1:8000/`. FastAPI serves
+`frontend/index.html`, `frontend/style.css`, and `frontend/script.js` from the
+same origin, so the page and API work together without opening the HTML file
+directly.
 
 The interface sends questions to `/api/ask`, shows the generated answer, and
 updates the sidebar with the concepts returned by the API. It does not display

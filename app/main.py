@@ -1,8 +1,15 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.routes.query import router as knowledge_router
 from app.routes.knowledge import router as graph_router
+
+
+FRONTEND_DIR = Path(__file__).resolve().parents[1] / "frontend"
 
 
 app = FastAPI(
@@ -28,11 +35,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-
-    return {
-        "name": "LLM OKF",
-        "status": "running",
-    }
+    return FileResponse(FRONTEND_DIR / "index.html")
 
 
 @app.get("/health")
@@ -41,3 +44,10 @@ def health():
     return {
         "status": "healthy",
     }
+
+
+app.mount(
+    "/",
+    StaticFiles(directory=FRONTEND_DIR),
+    name="frontend",
+)
